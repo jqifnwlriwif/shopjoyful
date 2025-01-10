@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Navigation from "@/components/Navigation";
 import CategoryTabs from "@/components/CategoryTabs";
 import ProductCard from "@/components/ProductCard";
@@ -34,17 +35,21 @@ const categories = ["All", "Clothing", "Glasses", "Speakers", "Promotions", "Per
 
 const Index = () => {
   const [activeCategory, setActiveCategory] = useState("All");
-  // TODO: Usar React Query para manejar el estado y caché de los productos
-  // const { data: products, isLoading, error } = useQuery({
-  //   queryKey: ['products'],
-  //   queryFn: fetchProducts
-  // });
   
-  const products = fetchProducts();
+  const { data: products = [], isLoading } = useQuery({
+    queryKey: ['products'],
+    queryFn: fetchProducts
+  });
 
   const filteredProducts = products.filter(
     (product) => activeCategory === "All" || product.category === activeCategory
   );
+
+  if (isLoading) {
+    return <div className="min-h-screen bg-background flex items-center justify-center">
+      Loading...
+    </div>;
+  }
 
   return (
     <div className="min-h-screen bg-background">
