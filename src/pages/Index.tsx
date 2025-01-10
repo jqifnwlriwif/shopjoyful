@@ -3,31 +3,44 @@ import Navigation from "@/components/Navigation";
 import CategoryTabs from "@/components/CategoryTabs";
 import ProductCard from "@/components/ProductCard";
 
-// Sample product data - replace with your actual data
-const products = [
-  {
-    id: 1,
-    name: "Premium Laptop",
-    type: "Electronics",
-    price: 1299.99,
-    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-    category: "All",
-  },
-  {
-    id: 2,
-    name: "Wireless Headphones",
-    type: "Speakers",
-    price: 199.99,
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e",
-    category: "Speakers",
-  },
-  // Add more products as needed
-];
+// TODO: Reemplazar con llamada a API real
+const fetchProducts = async () => {
+  // Ejemplo de cómo se estructuraría la llamada a la API
+  // const response = await fetch('tu-api/products');
+  // const data = await response.json();
+  // return data;
+  
+  return [
+    {
+      id: 1,
+      name: "Premium Laptop",
+      type: "Electronics",
+      price: 1299.99,
+      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      category: "All",
+    },
+    {
+      id: 2,
+      name: "Wireless Headphones",
+      type: "Speakers",
+      price: 199.99,
+      image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e",
+      category: "Speakers",
+    },
+  ];
+};
 
 const categories = ["All", "Clothing", "Glasses", "Speakers", "Promotions", "Perfumes"];
 
 const Index = () => {
   const [activeCategory, setActiveCategory] = useState("All");
+  // TODO: Usar React Query para manejar el estado y caché de los productos
+  // const { data: products, isLoading, error } = useQuery({
+  //   queryKey: ['products'],
+  //   queryFn: fetchProducts
+  // });
+  
+  const products = fetchProducts();
 
   const filteredProducts = products.filter(
     (product) => activeCategory === "All" || product.category === activeCategory

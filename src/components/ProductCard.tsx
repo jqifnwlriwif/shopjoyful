@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface ProductCardProps {
@@ -18,23 +19,42 @@ const ProductCard = ({
   secondaryColor = "text-muted-foreground",
 }: ProductCardProps) => {
   return (
-    <div className="group relative overflow-hidden rounded-lg bg-background transition-all hover:shadow-lg">
+    <motion.div
+      whileHover={{ 
+        scale: 1.05,
+        rotateY: 5,
+        z: 50 
+      }}
+      transition={{ 
+        type: "spring",
+        stiffness: 300,
+        damping: 20
+      }}
+      className="group relative overflow-hidden rounded-lg bg-background transition-all hover:shadow-lg perspective-1000"
+    >
       <div className="aspect-square overflow-hidden">
-        <img
+        <motion.img
           src={image}
           alt={name}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          className="h-full w-full object-cover"
+          whileHover={{ scale: 1.1 }}
+          transition={{ duration: 0.3 }}
           loading="lazy"
         />
       </div>
-      <div className="p-4 space-y-2">
+      <motion.div 
+        className="p-4 space-y-2"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
         <h3 className={cn("font-medium line-clamp-1", primaryColor)}>{name}</h3>
         <p className={cn("text-sm line-clamp-1", secondaryColor)}>{type}</p>
         <p className={cn("font-semibold", primaryColor)}>
           ${price.toFixed(2)}
         </p>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
