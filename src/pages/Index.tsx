@@ -39,7 +39,7 @@ const Index = () => {
     queryKey: ['products'],
     queryFn: fetchProducts,
     staleTime: 5 * 60 * 1000, // 5 minutos
-    cacheTime: 30 * 60 * 1000, // 30 minutos
+    gcTime: 30 * 60 * 1000, // 30 minutos (antes cacheTime)
   });
 
   const filteredProducts = useMemo(() => 
