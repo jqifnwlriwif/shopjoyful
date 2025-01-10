@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -10,7 +11,7 @@ interface ProductCardProps {
   secondaryColor?: string;
 }
 
-const ProductCard = ({
+const ProductCard = memo(({
   image,
   name,
   type,
@@ -18,13 +19,22 @@ const ProductCard = ({
   primaryColor = "text-primary",
   secondaryColor = "text-muted-foreground",
 }: ProductCardProps) => {
+  const cardVariants = {
+    hover: { 
+      scale: 1.05,
+      rotateY: 5,
+      z: 50 
+    }
+  };
+
+  const imageVariants = {
+    hover: { scale: 1.1 }
+  };
+
   return (
     <motion.div
-      whileHover={{ 
-        scale: 1.05,
-        rotateY: 5,
-        z: 50 
-      }}
+      variants={cardVariants}
+      whileHover="hover"
       transition={{ 
         type: "spring",
         stiffness: 300,
@@ -37,25 +47,21 @@ const ProductCard = ({
           src={image}
           alt={name}
           className="h-full w-full object-cover"
-          whileHover={{ scale: 1.1 }}
-          transition={{ duration: 0.3 }}
+          variants={imageVariants}
           loading="lazy"
         />
       </div>
-      <motion.div 
-        className="p-4 space-y-2"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
+      <div className="p-4 space-y-2">
         <h3 className={cn("font-medium line-clamp-1", primaryColor)}>{name}</h3>
         <p className={cn("text-sm line-clamp-1", secondaryColor)}>{type}</p>
         <p className={cn("font-semibold", primaryColor)}>
           ${price.toFixed(2)}
         </p>
-      </motion.div>
+      </div>
     </motion.div>
   );
-};
+});
+
+ProductCard.displayName = "ProductCard";
 
 export default ProductCard;

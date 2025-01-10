@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { cn } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
@@ -7,7 +8,7 @@ interface CategoryTabsProps {
   onCategoryChange: (category: string) => void;
 }
 
-const CategoryTabs = ({
+const CategoryTabs = memo(({
   categories,
   activeCategory,
   onCategoryChange,
@@ -35,6 +36,8 @@ const CategoryTabs = ({
       </ScrollArea>
     </div>
   );
-};
+});
+
+CategoryTabs.displayName = "CategoryTabs";
 
 export default CategoryTabs;

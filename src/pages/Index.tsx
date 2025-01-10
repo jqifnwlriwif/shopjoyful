@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Navigation from "@/components/Navigation";
 import CategoryTabs from "@/components/CategoryTabs";
@@ -6,10 +6,9 @@ import ProductCard from "@/components/ProductCard";
 
 // TODO: Reemplazar con llamada a API real
 const fetchProducts = async () => {
-  // Ejemplo de cómo se estructuraría la llamada a la API
-  // const response = await fetch('tu-api/products');
-  // const data = await response.json();
-  // return data;
+  console.log("Fetching products...");
+  // Simular latencia de red
+  await new Promise(resolve => setTimeout(resolve, 100));
   
   return [
     {
@@ -38,11 +37,16 @@ const Index = () => {
   
   const { data: products = [], isLoading } = useQuery({
     queryKey: ['products'],
-    queryFn: fetchProducts
+    queryFn: fetchProducts,
+    staleTime: 5 * 60 * 1000, // 5 minutos
+    cacheTime: 30 * 60 * 1000, // 30 minutos
   });
 
-  const filteredProducts = products.filter(
-    (product) => activeCategory === "All" || product.category === activeCategory
+  const filteredProducts = useMemo(() => 
+    products.filter(product => 
+      activeCategory === "All" || product.category === activeCategory
+    ),
+    [products, activeCategory]
   );
 
   if (isLoading) {
