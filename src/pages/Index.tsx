@@ -3,11 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import Navigation from "@/components/Navigation";
 import CategoryTabs from "@/components/CategoryTabs";
 import ProductCard from "@/components/ProductCard";
+import Footer from "@/components/Footer";
 
-// TODO: Reemplazar con llamada a API real
 const fetchProducts = async () => {
   console.log("Fetching products...");
-  // Simular latencia de red
   await new Promise(resolve => setTimeout(resolve, 100));
   
   return [
@@ -50,15 +49,21 @@ const Index = () => {
   );
 
   if (isLoading) {
-    return <div className="min-h-screen bg-background flex items-center justify-center">
-      Loading...
-    </div>;
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <Navigation />
+        <div className="flex-grow flex items-center justify-center">
+          Loading...
+        </div>
+        <Footer />
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navigation />
-      <main className="container mx-auto px-4 pt-24 pb-16">
+      <main className="flex-grow container mx-auto px-4 pt-24 pb-16">
         <CategoryTabs
           categories={categories}
           activeCategory={activeCategory}
@@ -76,6 +81,7 @@ const Index = () => {
           ))}
         </div>
       </main>
+      <Footer />
     </div>
   );
 };

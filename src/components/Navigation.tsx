@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Instagram, Facebook, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,43 +19,35 @@ const Navigation = () => {
 
   const menuItems = [
     { title: "Categories", items: categories },
-    { title: "Who We Are", href: "#about" },
+    { title: "Who We Are", href: "/who-we-are" },
     { title: "Contact Us", href: "#contact" },
   ];
-
-  // Variantes de animación para las líneas del menú
-  const lineVariants = {
-    closed: {
-      rotate: 0,
-      y: 0,
-    },
-    open: (custom: number) => ({
-      rotate: custom,
-      y: custom === 0 ? 8 : custom === 45 ? 0 : -8,
-    }),
-  };
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-background/80 backdrop-blur-md border-b">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          <h1 className="text-xl font-semibold">Store</h1>
+          <Link to="/" className="text-xl font-semibold">
+            Store
+          </Link>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-2 hover:bg-secondary rounded-full transition-colors relative w-10 h-10"
+            className="p-2 hover:bg-secondary rounded-lg transition-colors"
             aria-label="Toggle menu"
           >
-            <div className="absolute inset-0 flex flex-col justify-center items-center">
-              {[45, 0, -45].map((rotation, i) => (
-                <motion.span
-                  key={i}
-                  custom={isOpen ? rotation : 0}
-                  variants={lineVariants}
-                  animate={isOpen ? "open" : "closed"}
-                  transition={{ duration: 0.3 }}
-                  className="w-6 h-0.5 bg-foreground block mb-1.5 last:mb-0"
-                />
-              ))}
+            <div className="w-6 h-5 flex flex-col justify-between">
+              <span className={cn(
+                "w-full h-0.5 bg-foreground transition-transform duration-300",
+                isOpen && "rotate-45 translate-y-2"
+              )} />
+              <span className={cn(
+                "w-full h-0.5 bg-foreground transition-opacity duration-300",
+                isOpen && "opacity-0"
+              )} />
+              <span className={cn(
+                "w-full h-0.5 bg-foreground transition-transform duration-300",
+                isOpen && "-rotate-45 -translate-y-2"
+              )} />
             </div>
           </button>
         </div>
@@ -98,14 +91,18 @@ const Navigation = () => {
                     </div>
                   </>
                 ) : (
-                  <motion.a
-                    href={item.href}
-                    className="block text-lg font-medium hover:text-primary transition-colors"
+                  <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    {item.title}
-                  </motion.a>
+                    <Link
+                      to={item.href}
+                      className="block text-lg font-medium hover:text-primary transition-colors"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.title}
+                    </Link>
+                  </motion.div>
                 )}
               </div>
             ))}
@@ -147,7 +144,18 @@ const Navigation = () => {
               </motion.a>
             </div>
             <p className="text-center text-sm text-muted-foreground">
-              © 2024-{currentYear} All rights reserved.
+              © {currentYear} All rights reserved.
+            </p>
+            <p className="text-center text-sm text-muted-foreground mt-2">
+              Hecho por{" "}
+              <a
+                href="https://lovable.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                lovable
+              </a>
             </p>
           </motion.div>
         </div>
